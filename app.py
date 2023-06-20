@@ -3,6 +3,7 @@ from PIL import ImageTk
 import sqlite3
 from numpy  import random
 import pyglet
+pyglet.options['win32_gdi_font'] = True
 
 bg_color = "#3d6466"
 
@@ -20,20 +21,20 @@ def fetch_db():
     cursor.execute("SELECT * FROM sqlite_schema WHERE type='table';")
     all_tables = cursor.fetchall()
 
-    inx = random.randint(0, len(all_tables)-1)
+    idx = random.randint(0, len(all_tables)-1)
 
-    table_name = all_tables[inx][1]
+    table_name = all_tables[idx][1]
     cursor.execute("SELECT * FROM " + table_name + ";")
     table_records = cursor.fetchall()
 
     connection.close()
+
     return table_name, table_records
 
 def pre_process(table_name, table_records):
     # title
     title = table_name[:-6]
     title = "".join([char if char.islower() else " " + char for char in title])
-    print(title)
 
     ingredients = []
 
